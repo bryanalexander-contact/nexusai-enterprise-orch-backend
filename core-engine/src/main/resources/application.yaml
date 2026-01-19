@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: NexusAI-Backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nexusai
+    username: myuser
+    password: mypassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  # Configuración para Kafka (Modo KRaft)
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: nexusai-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  # Configuración para Spring AI 1.1.0-M1
+  ai:
+    google:
+      genai:
+        api-key: ${GOOGLE_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+            temperature: 0.7
+
+# Configuración de Actuator para monitoreo (Prometheus y Health)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+
+# Configuraciones personalizadas de tu lógica de negocio
+app:
+  billing:
+    cost-per-request: 0.05
+    initial-balance: 1.00
+  stripe:
+    api-key: ${STRIPE_API_KEY}
