@@ -1,0 +1,20 @@
+### Consultar Saldo
+GET http://localhost:8080/api/v1/billing/balance/1
+
+### Recargar Billetera (Stripe)
+POST http://localhost:8080/api/v1/billing/reload
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "amount": 50.0
+}
+
+### Consulta a Gemini (Detección de Fraude)
+POST http://localhost:8080/api/v1/ai/chat
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "message": "Analiza transacción sospechosa: IP desde China, monto 10000 USD, cuenta creada ayer."
+}

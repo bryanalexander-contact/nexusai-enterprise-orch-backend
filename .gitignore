@@ -1,0 +1,65 @@
+# ==========================================
+# ESTRUCTURA NEXUS: Java, Python e Infra
+# ==========================================
+# Reglas globales para venv
+**/venv/
+**/env/
+**/.venv/
+venv/
+[a-zA-Z0-9-]*/venv/
+# --- PYTHON (Carpeta raíz /python) ---
+python/venv/
+python/.venv/
+python/env/
+python/bin/
+**/__pycache__/
+*.pyc
+
+# --- JAVA / SPRING AI (Carpeta /core-engine) ---
+core-engine/target/
+core-engine/.mvn/wrapper/maven-wrapper.jar
+core-engine/build/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# --- INFRA / MONITOREO ---
+infra/data/
+infra/prometheus/data/
+*.log
+
+# ==========================================
+# CONFIGURACIONES DE IDE Y HERRAMIENTAS
+# ==========================================
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+### ARCHIVOS DE SISTEMA Y SECRETOS ###
+.env
+.env.*
+HELP.md
+.DS_Store
+Thumbs.db
