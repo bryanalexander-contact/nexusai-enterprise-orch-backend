@@ -16,9 +16,9 @@ func CalculateTokens(text string) Result {
 	// para ser exactos con los modelos de Google/OpenAI
 	words := strings.Fields(text)
 	count := len(words)
-	
+
 	return Result{
 		TokenCount: count,
-		Cost:       float64(count) * 0.00002, // Precio por token
+		FinalCost:  float64(count) * 0.00002, // Corregido: FinalCost en lugar de Cost
 	}
 }

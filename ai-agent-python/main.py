@@ -15,7 +15,7 @@ load_dotenv()
 app = FastAPI(title="NexusAI Agent Service - FinOps Gateway")
 
 # 1. Configuración de Modelos
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash") # Ajustar a 2.5 cuando esté disponible
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash") # Ajustar a 2.5 cuando esté disponible
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 # 2. Configuración de ChromaDB
