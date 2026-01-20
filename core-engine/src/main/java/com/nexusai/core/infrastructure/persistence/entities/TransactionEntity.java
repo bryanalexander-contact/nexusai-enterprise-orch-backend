@@ -19,14 +19,17 @@ public class TransactionEntity {
     private WalletEntity wallet;
 
     @Column(nullable = false)
-    private BigDecimal amount; // Positivo para recargas, negativo para consumos
+    private BigDecimal amount; 
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TransactionType type; // CREDIT (Recarga) o DEBIT (Gasto IA)
+    private TransactionType type; 
 
-    @Column(nullable = false)
-    private String description; // Ej: "Consulta Gemini 1.5 Flash" o "Stripe Top-up"
+    @Column // Se quitó nullable=false por si no siempre hay referencia
+    private String externalReference; // Para guardar el ID de sesión de Stripe
+
+    @Column
+    private String description;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

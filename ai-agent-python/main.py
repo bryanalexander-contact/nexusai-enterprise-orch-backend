@@ -7,10 +7,9 @@ from dotenv import load_dotenv
 # LangChain Imports
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
-from prometheus_fastapi_instrumentator import Instrumentato
-    
+from prometheus_fastapi_instrumentator import Instrumentator
 load_dotenv()
 
 app = FastAPI(title="NexusAI Agent Service - FinOps Gateway")

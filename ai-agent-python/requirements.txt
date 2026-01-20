@@ -1,0 +1,20 @@
+# Web Server
+fastapi
+uvicorn
+
+# AI & LangChain Core
+langchain
+langchain-community
+langchain-google-genai
+python-dotenv
+
+# Document Processing (RAG)
+pypdf
+langchain-text-splitters
+
+# Vector Database & Embeddings
+chromadb
+sentence-transformers
+
+# Monitoring (Para Grafana)
+prometheus-fastapi-instrumentator

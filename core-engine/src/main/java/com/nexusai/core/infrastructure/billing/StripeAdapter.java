@@ -1,6 +1,7 @@
 package com.nexusai.core.infrastructure.billing;
 
 import com.nexusai.core.domain.repository.PaymentGateway;
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.stereotype.Component;
@@ -10,13 +11,12 @@ import java.math.BigDecimal;
 @Component
 public class StripeAdapter implements PaymentGateway {
 
-    @Override
-    public String createPaymentUrl(Long userId, BigDecimal amount) {
+    // Cambiado de createPaymentUrl a createCheckoutSession para que BillingService lo encuentre
+    public String createCheckoutSession(Long userId, BigDecimal amount) {
         try {
             SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                // En producción, estas URLs vendrían de un archivo de configuración
                 .setSuccessUrl("http://localhost:8080/api/v1/billing/success?session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl("http://localhost:8080/api/v1/billing/cancel")
                 .addLineItem(
@@ -40,8 +40,19 @@ public class StripeAdapter implements PaymentGateway {
 
             Session session = Session.create(params);
             return session.getUrl(); 
-        } catch (Exception e) {
-            throw new RuntimeException("Error al crear sesión de Stripe: " + e.getMessage());
+        } catch (StripeException e) {
+            throw new RuntimeException("Error de Stripe: " + e.getMessage());
         }
+    }
+
+    // Método que faltaba para recuperar la sesión después del pago
+    public Session retrieveSession(String sessionId) throws StripeException {
+        return Session.retrieve(sessionId);
+    }
+
+    // Implementación del contrato de la interfaz si es necesario
+    @Override
+    public String createPaymentUrl(Long userId, BigDecimal amount) {
+        return createCheckoutSession(userId, amount);
     }
 }
