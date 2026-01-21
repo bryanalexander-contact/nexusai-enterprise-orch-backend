@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # --- INFRAESTRUCTURA Y BASES DE DATOS ---
   nexusai-db:
@@ -10,12 +12,15 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./infra/postgres_data:/var/lib/postgresql/data # Persistencia de usuarios y logs
+      - ./infra/postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d nexusai"]
-      interval: 5s
+      # Verificamos solo que el motor responda. Eliminamos el check de la DB específica 
+      # para evitar el error "database does not exist" durante el primer inicio.
+      test: ["CMD-SHELL", "pg_isready -U myuser"]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s # Damos 30 segundos de gracia para que Windows cree los archivos
     networks:
       - nexus-network
 
@@ -45,7 +50,7 @@ services:
     ports:
       - "8001:8000"
     volumes:
-      - ./infra/chroma_data:/chroma/chroma # Persistencia del "aprendizaje" de la IA
+      - ./infra/chroma_data:/chroma/chroma
     environment:
       - IS_PERSISTENT=TRUE
       - ANONYMIZED_TELEMETRY=FALSE
@@ -58,9 +63,11 @@ services:
       context: ./core-engine
       dockerfile: Dockerfile
     container_name: core-engine
+    # IMPORTANTE: Cambiamos de service_healthy a service_started para que no se bloquee
+    # si el healthcheck de la DB tarda un poco más de lo esperado.
     depends_on:
       nexusai-db:
-        condition: service_healthy # Espera a que la DB esté lista de verdad
+        condition: service_started
       kafka:
         condition: service_started
     ports:
@@ -68,6 +75,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:postgresql://nexusai-db:5432/nexusai
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=mypassword
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     networks:
       - nexus-network
@@ -82,8 +91,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./docs:/app/docs # Para que Python "vea" tus PDFs locales
-      - ./infra/chroma_data:/app/chroma_db # Conexión a la persistencia vectorial
+      - ./docs:/app/docs
+      - ./infra/chroma_data:/app/chroma_db
     env_file: ./ai-agent-python/.env
     networks:
       - nexus-network
@@ -104,7 +113,7 @@ services:
     container_name: prometheus
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./infra/prometheus_data:/prometheus # Persistencia de métricas
+      - ./infra/prometheus_data:/prometheus
     ports:
       - "9090:9090"
     networks:
@@ -119,7 +128,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - ./infra/grafana/provisioning:/etc/grafana/provisioning
-      - ./infra/grafana_data:/var/lib/grafana # Persistencia de tus tableros
+      - ./infra/grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
     networks:

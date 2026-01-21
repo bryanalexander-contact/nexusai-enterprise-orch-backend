@@ -63,3 +63,34 @@ build/
 HELP.md
 .DS_Store
 Thumbs.db
+
+
+
+
+# --- Bases de datos y Datos Locales ---
+infra/postgres_data/
+infra/chroma_data/
+infra/prometheus_data/
+infra/grafana_data/
+docs/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+ai-agent-python/.env
+
+# --- Java (Spring Boot) ---
+core-engine/target/
+core-engine/.mvn/
+core-engine/.project
+core-engine/.classpath
+core-engine/.settings/
+
+# --- Go ---
+token-watcher-go/main
+token-watcher-go/bin/
+
+# --- Sistema ---
+.DS_Store
+Thumbs.db
