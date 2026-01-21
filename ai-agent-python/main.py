@@ -21,7 +21,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 # 2. Configuración de ChromaDB
 # Nos conectamos al contenedor que definimos en el compose.yaml
 vector_db = Chroma(
-    persist_directory="./chroma_db",
+    persist_directory="/app/chroma_db", # <--- Usa la ruta absoluta del contenedor
     embedding_function=embeddings,
     collection_name="nexusai_knowledge"
 )
