@@ -1,20 +1,81 @@
-### Consultar Saldo
-GET http://localhost:8080/api/v1/billing/balance/1
+### =================================================================
+### 1. CORE ENGINE (JAVA - SPRING BOOT) - PUERTO 8080
+### =================================================================
 
-### Recargar Billetera (Stripe)
-POST http://localhost:8080/api/v1/billing/reload
+# @name login
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@nexusai.com"
+}
+
+### Guardamos el token de la respuesta de arriba
+@token = {{login.response.body.access_token}}
+
+### Chat con Gemini (Orquestado)
+POST http://localhost:8080/api/v1/ai/chat
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
     "userId": 1,
+    "message": "Hola Gemini, ¿cómo está mi saldo para hoy?"
+}
+
+### Consultar Saldo
+GET http://localhost:8080/api/v1/billing/balance
+Authorization: Bearer {{token}}
+
+### Recargar Saldo (Generar URL de Stripe)
+POST http://localhost:8080/api/v1/billing/reload
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
     "amount": 50.0
 }
 
-### Consulta a Gemini (Detección de Fraude)
-POST http://localhost:8080/api/v1/ai/chat
+---
+
+### =================================================================
+### 2. AI AGENT SERVICE (PYTHON - FASTAPI) - PUERTO 8000
+### =================================================================
+
+### Verificar Salud de la IA
+GET http://localhost:8000/
+
+### Procesar Consulta con RAG (Contexto de PDF)
+POST http://localhost:8000/v1/ai/process
 Content-Type: application/json
 
 {
-    "userId": 1,
-    "message": "Analiza transacción sospechosa: IP desde China, monto 10000 USD, cuenta creada ayer."
+    "user_query": "Según la definición de Olga Gallego, ¿qué funciones básicas debe cumplir un archivo de empresa y cómo se ven reflejadas estas funciones en las series documentales de 'Administración' y 'Producción y Ventas'?",
+    "user_id": 1
+}
+
+### Subir Documento PDF (Form-Data)
+# Nota: Para esto, asegúrate de tener un archivo llamado 'manual.pdf' en la misma carpeta
+### Subir Documento desde tu carpeta raíz /docs
+POST http://localhost:8000/v1/agent/upload-doc
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="nexuscorp_internal_policy.pdf"
+Content-Type: application/pdf
+
+< ./docs/nexuscorp_internal_policy.pdf
+--boundary--
+
+### =================================================================
+### 3. TOKEN WATCHER (GO) - PUERTO 8081
+### =================================================================
+
+### Proxy de Cálculo de Tokens y Costos
+POST http://localhost:8081/v1/proxy/stream
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "text": "Analizando el flujo de tokens para optimizar el FinOps de NexusAI."
 }

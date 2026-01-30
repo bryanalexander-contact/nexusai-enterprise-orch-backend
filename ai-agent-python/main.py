@@ -61,7 +61,7 @@ async def process_ai(request: QueryRequest):
         
         return {
             "response": response.content,
-            "user_id": request.userId,
+            "user_id": request.user_id,
             "cost": 0.05,
             "source_documents_count": len(docs)
         }
