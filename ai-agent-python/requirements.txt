@@ -9,3 +9,4 @@ chromadb
 pypdf
 watchdog  # <--- ESTA ES LA NUEVA
 prometheus-fastapi-instrumentator
+python-multipart

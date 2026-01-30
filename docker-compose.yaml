@@ -14,13 +14,11 @@ services:
     volumes:
       - ./infra/postgres_data:/var/lib/postgresql/data
     healthcheck:
-      # Verificamos solo que el motor responda. Eliminamos el check de la DB específica 
-      # para evitar el error "database does not exist" durante el primer inicio.
-      test: ["CMD-SHELL", "pg_isready -U myuser"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U myuser -d nexusai"]
+      interval: 5s
       timeout: 5s
-      retries: 5
-      start_period: 30s # Damos 30 segundos de gracia para que Windows cree los archivos
+      retries: 10
+      start_period: 10s
     networks:
       - nexus-network
 
@@ -63,21 +61,23 @@ services:
       context: ./core-engine
       dockerfile: Dockerfile
     container_name: core-engine
-    # IMPORTANTE: Cambiamos de service_healthy a service_started para que no se bloquee
-    # si el healthcheck de la DB tarda un poco más de lo esperado.
     depends_on:
       nexusai-db:
-        condition: service_started
+        condition: service_healthy
       kafka:
         condition: service_started
     ports:
       - "8080:8080"
     environment:
+      - DB_HOST=nexusai-db
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:postgresql://nexusai-db:5432/nexusai
       - SPRING_DATASOURCE_USERNAME=myuser
       - SPRING_DATASOURCE_PASSWORD=mypassword
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GOOGLE_PROJECT_ID=nexusai-project-id
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
     networks:
       - nexus-network
 
@@ -107,7 +107,6 @@ services:
     networks:
       - nexus-network
 
-  # --- OBSERVABILIDAD ---
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
