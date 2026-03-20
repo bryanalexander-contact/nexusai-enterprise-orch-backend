@@ -1,19 +1,6 @@
 # ==========================================
-# ESTRUCTURA NEXUS: Java, Python e Infra
+# ESTRUCTURA NEXUS: Java
 # ==========================================
-# Reglas globales para venv
-**/venv/
-**/env/
-**/.venv/
-venv/
-[a-zA-Z0-9-]*/venv/
-# --- PYTHON (Carpeta raíz /python) ---
-python/venv/
-python/.venv/
-python/env/
-python/bin/
-**/__pycache__/
-*.pyc
 
 # --- JAVA / SPRING AI (Carpeta /core-engine) ---
 core-engine/target/
@@ -21,11 +8,6 @@ core-engine/.mvn/wrapper/maven-wrapper.jar
 core-engine/build/
 !**/src/main/**/target/
 !**/src/test/**/target/
-
-# --- INFRA / MONITOREO ---
-infra/data/
-infra/prometheus/data/
-*.log
 
 # ==========================================
 # CONFIGURACIONES DE IDE Y HERRAMIENTAS
@@ -64,32 +46,12 @@ HELP.md
 .DS_Store
 Thumbs.db
 
-
-
-
-# --- Bases de datos y Datos Locales ---
-infra/postgres_data/
-infra/chroma_data/
-infra/prometheus_data/
-infra/grafana_data/
-docs/
-
-# --- Python ---
-__pycache__/
-*.py[cod]
-.venv/
-ai-agent-python/.env
-
 # --- Java (Spring Boot) ---
 core-engine/target/
 core-engine/.mvn/
 core-engine/.project
 core-engine/.classpath
 core-engine/.settings/
-
-# --- Go ---
-token-watcher-go/main
-token-watcher-go/bin/
 
 # --- Sistema ---
 .DS_Store

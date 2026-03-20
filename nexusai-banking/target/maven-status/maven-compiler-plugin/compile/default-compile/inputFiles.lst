@@ -1,0 +1,12 @@
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\controller\AccountController.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\controller\ContactController.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\model\AccountEntity.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\model\ContactEntity.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\model\TransactionEntity.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\model\TransactionStatus.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\repository\AccountRepository.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\repository\ContactRepository.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\domain\repository\TransactionRepository.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\service\BillingService.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\service\StripeService.java
+C:\Users\bryan\Desktop\DigitalSysweb\proyectos a completar\nexusai-enterprise-orch-backend\nexusai-banking\src\main\java\com\nexusai\core\banking\service\TransferService.java

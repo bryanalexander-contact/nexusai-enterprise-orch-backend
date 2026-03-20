@@ -1,7 +1,0 @@
-target/
-*.jar
-.mvn/
-.idea/
-.vscode/
-bin/
-*.iml

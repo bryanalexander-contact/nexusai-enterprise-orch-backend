@@ -1,30 +1,22 @@
-# Variables
-COMPOSE = docker compose
+# NexusAI Backend Makefile (Local Development)
 
-.PHONY: up down restart logs ps clean
+.PHONY: build run test clean help
 
-# Levantar todo en modo silencioso
-up:
-	$(COMPOSE) up -d
+help:
+	@echo "NexusAI - Comandos Disponibles:"
+	@echo "  make build        - Compilar el proyecto y empaquetar (saltando tests)"
+	@echo "  make run          - Ejecutar la aplicación principal (nexusai-app)"
+	@echo "  make test         - Ejecutar todos los tests"
+	@echo "  make clean        - Limpiar archivos temporales de compilación"
 
-# Construir y levantar (cuando cambias código)
 build:
-	$(COMPOSE) up --build -d
+	./mvnw clean package -DskipTests
 
-# Detener todo
-down:
-	$(COMPOSE) down --remove-orphans
+run:
+	./mvnw spring-boot:run -pl nexusai-app
 
-# Ver logs en tiempo real de toda la app
-logs:
-	$(COMPOSE) logs -f
+test:
+	./mvnw test
 
-# Limpiar datos de las bases de datos (Reset total)
 clean:
-	$(COMPOSE) down --volumes --remove-orphans
-	rm -rf infra/postgres_data/*
-	rm -rf infra/chroma_data/*
-
-# Estado de los contenedores
-ps:
-	$(COMPOSE) ps
+	./mvnw clean

@@ -1,0 +1,3 @@
+com\nexusai\core\shared\security\JwtAuthenticationFilter.class
+com\nexusai\core\shared\security\JwtService.class
+com\nexusai\core\shared\security\Role.class
